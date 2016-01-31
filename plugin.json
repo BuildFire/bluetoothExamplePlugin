@@ -1,0 +1,22 @@
+{
+  "author":"Daniel Hindi"
+,"pluginName":"Bluetooth Example"
+,"pluginDescription":"check docs at https://github.com/BuildFire/bluetoothExamplePlugin"
+,"supportEmail":"[Your support Email]"
+,"control":{
+  "content":{
+    "enabled":false
+  }
+, "design":{
+    "enabled":false
+  }
+, "settings":{
+    "enabled":false
+  }
+}
+,"widget":{
+
+},
+  "features" : ["bluetooth"],
+  "languages" : ["en"]
+}

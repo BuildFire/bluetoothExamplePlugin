@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+	<!-- Load helper.css to use our helper classes.
+	<link href="../../../../styles/helper.css" rel="stylesheet">
+	-->
+	
+	<!-- JS -->
+	<script src="../../../scripts/buildfire.js"></script>
+	<script src="../../../scripts/buildfire/services/bluetooth/ble.js"></script>
+
+	<script src="../../../scripts/angular/angular.min.js"></script>
+
+</head>
+<body ng-app="btApp" ng-controller="btCtrl">
+	<div id='divWidget'>
+		<h1 ng-hide="connected">Paired Devices:</h1>
+		<ul ng-hide="connected">
+			<li ng-repeat="device in devices" >
+				<a class="btn btn-success" ng-click="pair(device)">{{device.name}}</a>
+			</li>
+		</ul>
+		<div >{{data}}</div>
+	</div>
+	<div>
+		<button class="btn btn-success" ng-show="connected" ng-click="clickOn()" >ON</button>
+		<button class="btn btn-danger" ng-show="connected" ng-click="clickOff()">OFF</button>
+
+	</div>
+
+<script>
+
+	var btApp=angular.module('btApp', [] );
+
+	btApp.controller('btCtrl',['$scope',function($scope){
+		$scope.connected=false;
+		var ble= buildfire.services.bluetooth.ble;
+
+		ble.listPairedDevices(function(err,devices){
+			if(err)
+				alert('failed to connect');
+			else {
+				$scope.devices = devices;
+				if (!$scope.$$phase) $scope.$apply();
+			}
+
+		});
+
+		$scope.pair = function(device){
+			ble.connect(device.deviceId, function(err,d){
+				if(!err){
+					$scope.connected=true;
+					ble.subscribe('\n',function(err,data){
+						//log all data comes from bluetooth device
+						if(data){
+							$scope.data += data;
+							if (!$scope.$$phase) $scope.$apply();
+						}
+					});
+					if (!$scope.$$phase) $scope.$apply();
+				}
+			});
+
+		};
+
+		$scope.clickOn= function() {
+			ble.write('1');//send 1 to bluetooth device
+		};
+
+		$scope.clickOff= function() {
+			ble.write('0');//send 0 to bluetooth device
+		};
+
+		$scope.data = "";
+
+
+
+	}]);
+
+
+
+</script>
+</body>
+</html>
