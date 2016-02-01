@@ -3,9 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-	<!-- Load helper.css to use our helper classes.
+	<!-- CSS -->
 	<link href="../../../../styles/helper.css" rel="stylesheet">
-	-->
 	
 	<!-- JS -->
 	<script src="../../../scripts/buildfire.js"></script>
@@ -14,22 +13,24 @@
 	<script src="../../../scripts/angular/angular.min.js"></script>
 
 </head>
-<body ng-app="btApp" ng-controller="btCtrl">
+<body ng-app="btApp" ng-controller="btCtrl" class="padded">
 	<div id='divWidget'>
-		<h1 ng-hide="connected">Paired Devices:</h1>
+		<h4 ng-hide="connected">Paired Devices:</h4>
 		<ul ng-hide="connected">
-			<li ng-repeat="device in devices" >
+			<li ng-repeat="device in devices">
 				<a class="btn btn-success" ng-click="pair(device)">{{device.name}}</a>
 			</li>
 		</ul>
 		<div >{{data}}</div>
 	</div>
-	<div>
-		<button class="btn btn-success" ng-show="connected" ng-click="clickOn()" >ON</button>
-		<button class="btn btn-danger" ng-show="connected" ng-click="clickOff()">OFF</button>
-
+	<div class="item clearfix row margin-top-fifteen margin-bottom-fifteen">
+		<div class="col-xs-6 padding-right-five">
+			<button class="btn btn-primary stretch" ng-show="connected" ng-click="clickOn()">ON</button>
+		</div>
+		<div class="col-xs-6 padding-left-five">
+			<button class="btn btn-danger stretch" ng-show="connected" ng-click="clickOff()">OFF</button>
+		</div>
 	</div>
-
 <script>
 
 	var btApp=angular.module('btApp', [] );
